@@ -73,7 +73,6 @@ class OutstandingParams(BaseModel):
 
 class DealCreator:
     def __init__(self, template_path: str, config: DealConfig):
-        logger.debug(f"Initializing DealCreator with template_path={template_path}")
         self.template_path = Path(template_path)
         self.config = config
         self.deal_params = DealParams(
@@ -81,12 +80,12 @@ class DealCreator:
             user_id=pwd.getpwuid(os.geteuid()).pw_name.ljust(6),
             maturity_date=self._calculate_maturity_date()
         )
-        logger.debug(f"DealCreator initialized with config: {self.config}")
         self.query_executor = QueryExecutor()
+        self.facility_params = None
+        self.outstanding_params = None
 
     @classmethod
     def from_config_file(cls, template_path: str, config_path: str):
-        logger.debug(f"Creating DealCreator from config file: {config_path}")
         config_data = parse_json_cfg(config_path)
         if template_path not in config_data:
             raise ValueError(f"Template '{template_path}' not found in config file")
@@ -111,17 +110,135 @@ class DealCreator:
         )
         if deal_id:
             self.deal_params.deal_id = deal_id
-            logger.info(f"Deal created with deal_id: {deal_id}")
             return deal_id
         return None
 
+    def create_facility(self) -> Optional[str]:
+        self.facility_params = FacilityParams(
+            deal_id=self.deal_params.deal_id,
+            facility_name=f"{self.config.deal_name}_FAC",
+            maturity_date=self.deal_params.maturity_date,
+            closing_commitment=self.config.principal_amount,
+            proposed_commit_amount=self.config.principal_amount,
+            spread=self.config.rate
+        )
+        
+        template_params = {
+            "deal_id": self.deal_params.deal_id,
+            "facility_name": self.facility_params.facility_name,
+            "maturity_date": self.facility_params.maturity_date,
+            "closing_commitment": self.facility_params.closing_commitment,
+            "proposed_commit_amount": self.facility_params.proposed_commit_amount,
+            "spread": self.facility_params.spread,
+        }
+        
+        facility_id = self.query_executor.execute_and_check(
+            str(Path(self.template_path) / "create_facility_CRE.xml"),
+            template_params,
+            "@facilityId"
+        )
+        if facility_id:
+            self.deal_params.facility_id = facility_id
+            return facility_id
+        return None
+
+    def validate_facility(self) -> bool:
+        template_params = {"facility_id": self.deal_params.facility_id}
+        return self.query_executor.execute_and_check(
+            str(Path(self.template_path) / "validate_facility_CRE.xml"),
+            template_params
+        ) is not None
+
+    def create_outstanding(self) -> Optional[str]:
+        self.outstanding_params = OutstandingParams(
+            effective_date=self.config.agreement_date.strftime("%Y-%m-%d"),
+            maturity_date=self.deal_params.maturity_date,
+            facility_control_number=self.deal_params.facility_id,
+            requested_amount=float(self.config.principal_amount),
+            amount=float(self.config.principal_amount)
+        )
+        
+        template_params = {
+            "effective_date": self.outstanding_params.effective_date,
+            "maturity_date": self.outstanding_params.maturity_date,
+            "facility_control_number": self.outstanding_params.facility_control_number,
+            "requested_amount": self.outstanding_params.requested_amount,
+            "amount": self.outstanding_params.amount
+        }
+        
+        outstanding_id = self.query_executor.execute_and_check(
+            str(Path(self.template_path) / "create_outstanding_CRE.xml"),
+            template_params,
+            "@outstandingId"
+        )
+        if outstanding_id:
+            self.deal_params.transaction_id = outstanding_id
+            return outstanding_id
+        return None
+
+    def validate_outstanding(self) -> bool:
+        template_params = {"transaction_id": self.deal_params.transaction_id}
+        return self.query_executor.execute_and_check(
+            str(Path(self.template_path) / "validate_outstanding_CRE.xml"),
+            template_params
+        ) is not None
+
+    def release_outstanding(self) -> bool:
+        template_params = {"transaction_id": self.deal_params.transaction_id}
+        return self.query_executor.execute_and_check(
+            str(Path(self.template_path) / "release_outstanding_CRE.xml"),
+            template_params
+        ) is not None
+
+    def close_facility(self) -> bool:
+        template_params = {"facility_id": self.deal_params.facility_id}
+        return self.query_executor.execute_and_check(
+            str(Path(self.template_path) / "close_facility_CRE.xml"),
+            template_params
+        ) is not None
+
+    def close_deal(self) -> bool:
+        template_params = {"deal_id": self.deal_params.deal_id}
+        return self.query_executor.execute_and_check(
+            str(Path(self.template_path) / "close_deal_CRE.xml"),
+            template_params
+        ) is not None
+
     def process_deal(self) -> bool:
         try:
-            deal_id = self.create_deal()
-            if not deal_id:
-                logger.error("Failed to create deal - no deal ID returned")
+            logger.info("Creating deal...")
+            if not self.create_deal():
                 return False
-            logger.info(f"Successfully created deal with ID: {deal_id}")
+            
+            logger.info("Creating facility...")
+            if not self.create_facility():
+                return False
+                
+            logger.info("Validating facility...")
+            if not self.validate_facility():
+                return False
+                
+            logger.info("Creating outstanding...")
+            if not self.create_outstanding():
+                return False
+                
+            logger.info("Validating outstanding...")
+            if not self.validate_outstanding():
+                return False
+            
+            logger.info("Releasing outstanding...")
+            if not self.release_outstanding():
+                return False
+            
+            logger.info("Closing facility...")
+            if not self.close_facility():
+                return False
+            
+            logger.info("Closing deal...")
+            if not self.close_deal():
+                return False
+                
+            logger.info("Deal processing completed successfully")
             return True
         except Exception as e:
             logger.error(f"Failed to process deal: {e}")
