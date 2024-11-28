@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  quantedge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quantedge
+    volumes:
+      - .:/QuantEdge
+    working_dir: /QuantEdge
+    command: ["ctest", "--test-dir", "build", "--output-on-failure"]
+

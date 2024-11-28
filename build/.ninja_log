@@ -1,0 +1,14 @@
+# ninja log v5
+3	122	1732757458845565316	CMakeFiles/TestPairsTrader.dir/src/Statistics.cpp.o	a31890cf755dab67
+1	195	1732757458918566509	CMakeFiles/QuantEdge.dir/src/Statistics.cpp.o	f789e83e09e490cc
+3	212	1732757458935566787	CMakeFiles/TestPairsTrader.dir/src/MomentumStrategy.cpp.o	acb0a95805616bd1
+0	224	1732757458946566966	CMakeFiles/QuantEdge.dir/src/MeanReversionStrategy.cpp.o	fdf64480c9e069b5
+1	255	1732757458978567489	CMakeFiles/QuantEdge.dir/src/MomentumStrategy.cpp.o	13e3052827695d2b
+1	303	1732757459025568257	CMakeFiles/QuantEdge.dir/src/PairsTrader.cpp.o	5ccf79fcc4c653b3
+2	415	1732757459137570087	CMakeFiles/TestPairsTrader.dir/src/MeanReversionStrategy.cpp.o	7121b8f5f62802c4
+3	456	1732757459177570740	CMakeFiles/TestPairsTrader.dir/src/PairsTrader.cpp.o	a5a16553331e4586
+5	476	1732757459199571100	_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o	5cdb116bedf9caff
+2	737	1732757459459575347	CMakeFiles/TestPairsTrader.dir/test/TestPairsTrader.cpp.o	2f022b97a7b2942d
+4	974	1732757459696579219	_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o	4e184c978ab963c7
+4	1189	1732757459910582716	_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o	32baec0d58c4eb09
+4	3079	1732757461799613577	_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	38ac10944b0d90ec

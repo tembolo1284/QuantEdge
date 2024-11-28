@@ -1,0 +1,21 @@
+# ninja log v5
+0	54	1732757454676497202	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	2c2e1bf17b3ad3df
+0	54	1732757454676497202	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	2c2e1bf17b3ad3df
+54	583	1732757455205505846	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	d09e3c8991c28240
+54	583	1732757455205505846	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	d09e3c8991c28240
+583	596	1732757455218506058	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	fd14d9483ad8cdee
+583	596	1732757455218506058	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	fd14d9483ad8cdee
+596	615	1732757455236506352	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	7fbf3075c5311c40
+596	615	1732757455236506352	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	7fbf3075c5311c40
+615	634	1732757455256506679	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	e27ebb7fcad5447b
+615	634	1732757455256506679	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	e27ebb7fcad5447b
+634	653	1732757455276507005	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	a5d1240623c3d03d
+634	653	1732757455276507005	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	a5d1240623c3d03d
+653	671	1732757455294507300	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	3d9f3904c65b3a98
+653	671	1732757455294507300	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	3d9f3904c65b3a98
+672	684	1732757455307507512	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	cae7e90809db0419
+672	684	1732757455307507512	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	cae7e90809db0419
+684	709	1732757455331507904	CMakeFiles/googletest-populate-complete	e5b669d210a26f60
+684	709	1732757455331507904	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	e5b669d210a26f60
+684	709	1732757455331507904	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete	e5b669d210a26f60
+684	709	1732757455331507904	/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	e5b669d210a26f60
