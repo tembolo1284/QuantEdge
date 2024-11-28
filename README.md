@@ -165,6 +165,30 @@ Google Test (gtest) is integrated into the project to enable structured and comp
    ./build/TestPairsTrader
 
 ---
+## Running the Docker Management Script
+
+The `quantedge_docker.sh` script is a utility to manage Docker operations for the **QuantEdge** project. It provides commands to build the Docker image, run the application, execute tests, and clean up resources.
+
+#### **Prerequisites**
+
+1. Ensure Docker is installed on your system.
+2. Make the script executable:
+   ```bash
+   chmod +x quantedge_docker.sh
+
+## Usage
+
+Run the script with one of the following parameters:
+```
+./quantedge_docker.sh [parameter]
+```
+
+## Parameters:
+Parameter - Description
+build - Builds the Docker image for the project.
+run - Cleans up existing containers and starts the QuantEdge application.
+test - Runs the tests inside a Docker container.
+clean - Stops and removes running containers, deletes unused networks and volumes.
 
 ## Troubleshooting
 

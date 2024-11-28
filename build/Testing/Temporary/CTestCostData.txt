@@ -1,5 +1,0 @@
-PairsTraderTest.BasicFunctionality 1 0.00252368
-MeanReversionStrategyTest.BasicFunctionality 1 0.0027232
-MomentumStrategyTest.BasicFunctionality 1 0.00260221
-TestPairsTrader 1 0.00256995
----
