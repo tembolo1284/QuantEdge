@@ -1,0 +1,30 @@
+name: CMake Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: sudo apt-get update && sudo apt-get install -y ninja-build cmake g++-11
+
+    - name: Configure CMake
+      run: cmake -S . -B build -G Ninja
+
+    - name: Build Project
+      run: cmake --build build
+
+    - name: Run Tests
+      run: ctest --test-dir build --output-on-failure
+

@@ -1,0 +1,7 @@
+add_test( PairsTraderTest.BasicFunctionality /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/TestPairsTrader [==[--gtest_filter=PairsTraderTest.BasicFunctionality]==] --gtest_also_run_disabled_tests)
+set_tests_properties( PairsTraderTest.BasicFunctionality PROPERTIES WORKING_DIRECTORY /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test( MeanReversionStrategyTest.BasicFunctionality /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/TestPairsTrader [==[--gtest_filter=MeanReversionStrategyTest.BasicFunctionality]==] --gtest_also_run_disabled_tests)
+set_tests_properties( MeanReversionStrategyTest.BasicFunctionality PROPERTIES WORKING_DIRECTORY /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test( MomentumStrategyTest.BasicFunctionality /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/TestPairsTrader [==[--gtest_filter=MomentumStrategyTest.BasicFunctionality]==] --gtest_also_run_disabled_tests)
+set_tests_properties( MomentumStrategyTest.BasicFunctionality PROPERTIES WORKING_DIRECTORY /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set( TestPairsTrader_TESTS PairsTraderTest.BasicFunctionality MeanReversionStrategyTest.BasicFunctionality MomentumStrategyTest.BasicFunctionality)

@@ -1,23 +1,27 @@
-# Base image
+# Use Ubuntu as the base image
 FROM ubuntu:20.04
 
-# Set up environment
+# Set non-interactive mode for installing packages
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install dependencies
-RUN apt-get update && \
-    apt-get install -y build-essential cmake git ninja-build && \
-    apt-get clean
+# Install build tools and dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    ninja-build \
+    g++ \
+    git \
+    && apt-get clean
 
 # Set working directory
-WORKDIR /QuantEdge
+WORKDIR /app
 
-# Copy source files
+# Copy the source files
 COPY . .
 
-# Build the project
+# Configure and build the project
 RUN cmake -S . -B build -G Ninja && cmake --build build
 
-# Default command
+# Run tests as the default command
 CMD ["ctest", "--test-dir", "build", "--output-on-failure"]
 

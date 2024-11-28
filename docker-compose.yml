@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: quantedge
     volumes:
-      - .:/QuantEdge
-    working_dir: /QuantEdge
+      - .:/app
+    working_dir: /app
     command: ["ctest", "--test-dir", "build", "--output-on-failure"]
 

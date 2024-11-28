@@ -1,86 +1,184 @@
+
 # QuantEdge
-A modern C++ framework for implementing and testing quantitative trading strategies, including pairs trading, mean-reversion, and momentum strategies. It focuses on efficiency, scalability, and modularity, making it suitable for quantitative finance projects.
 
-# Deal Creation Tool
+QuantEdge is a modern C++ framework for implementing and testing quantitative trading strategies, including pairs trading, mean-reversion, and momentum strategies. It focuses on efficiency, scalability, and modularity, making it suitable for quantitative finance projects.
 
-A Python-based tool for creating and managing financial deals with facilities and outstandings in Loan IQ.
+---
 
-## Components
+# Features
 
-### deal_creator.py
+1. Pairs Trading: Market-neutral strategy based on the relative movement of two correlated assets.
+2. Mean-Reversion Strategy: Identifies deviations from the historical mean and trades on the assumption of reversion.
+3. Momentum Strategy: Trades on the assumption that trends will continue.
+4. Cross-Platform Support: Uses CMake for cross-platform builds and tests.
+5. Unit Testing: Includes Google Test (gtest) for structured, comprehensive testing.
+6. Dockerized Development: Easily run and test the project in a containerized environment.
 
-The main script that handles deal creation and management through a series of structured steps.
+---
 
-#### Key Features
-- Creates deals with configurable parameters (name, alias, dates, amounts)
-- Manages facility creation and validation
-- Handles outstanding creation, validation, and release
-- Processes facility and deal closure
-- Uses JSON configuration for deal parameters
+## Project Structure
 
-#### Classes
-- `DealConfig`: Validates and stores deal configuration
-- `DealParams`: Manages deal-specific parameters
-- `FacilityParams`: Handles facility-related parameters
-- `OutstandingParams`: Manages outstanding-specific parameters
-- `DealCreator`: Main class orchestrating the deal creation process
+QuantEdge/
 
-#### Command Line Usage
-```bash
-deal_creator create-deal [OPTIONS]
+│
 
-Options:
---config PATH         JSON config file path (default: cfg/deal_creation/deal_creation.json)
---template-path TEXT  Template directory for XML queries (default: cre-deal)
-```
+├── include/                # Header files
 
-### query_executor.py
+│   ├── PairsTrader.hpp     # Pairs trading implementation
 
-Handles XML query execution and response parsing for LoanIQ interactions.
+│   ├── Statistics.hpp      # Utility functions for statistical calculations
 
-#### Key Features
-- Executes XML queries against LoanIQ
-- Parses colon-separated responses
-- Extracts IDs from nested response structures
-- Manages both REST and XQuery client connections
+│   ├── StrategyBase.hpp    # Abstract base class for trading strategies
 
-#### Classes
-- `QueryResponse`: Models query response structure
-- `QueryExecutor`: Handles query execution and response processing
+│   ├── MeanReversionStrategy.hpp  # Mean-reversion strategy
 
-## Configuration
+│   └── MomentumStrategy.hpp       # Momentum strategy
 
-### JSON Config Structure
-```json
-{
-  "cre-deal": {
-    "deal_name": "DEAL_NAME",
-    "deal_alias": "DEAL_ALIAS",
-    "agreement_date": "YYYY-MM-DD",
-    "principal_amount": 1000000,
-    "rate": 7.75,
-    "tenor": 10
-  }
-}
-```
+│
 
-### Required XML Templates
-1. create_deal_CRE.xml
-2. create_facility_CRE.xml
-3. validate_facility_CRE.xml
-4. create_outstanding_CRE.xml
-5. validate_outstanding_CRE.xml
-6. release_outstanding_CRE.xml
-7. close_facility_CRE.xml
-8. close_deal_CRE.xml
+├── src/                    # Source files
 
-## Dependencies
-- pathlib
-- datetime
-- dateutil
-- pydantic
-- click
-- returns
-- ldds.liq_client
-- cfg_reader
+│   ├── PairsTrader.cpp     # Pairs trading implementation
 
+│   ├── Statistics.cpp      # Utility implementations
+
+│   ├── MeanReversionStrategy.cpp  # Mean-reversion strategy
+
+│   └── MomentumStrategy.cpp       # Momentum strategy
+
+│
+
+├── test/                   # Test files
+
+│   └── TestPairsTrader.cpp # Unit tests for trading strategies
+
+│
+
+├── CMakeLists.txt          # CMake build configuration
+
+
+├── Dockerfile              # Dockerfile for containerized builds and tests
+
+├── docker-compose.yml      # Docker Compose for managing Docker builds and tests
+
+└── README.txt              # Project documentation
+
+---
+
+## Prerequisites
+
+- CMake: Version 3.16 or higher.
+- C++ Compiler: A modern compiler supporting C++17.
+- Docker: Optional, for containerized builds and tests.
+- Google Test (gtest): Automatically fetched and built via CMake.
+
+---
+
+## Build and Run
+
+### Using CMake
+
+1. Configure the Project:
+   cmake -S . -B build -G Ninja  # Or replace "Ninja" with your generator
+
+2. Build the Project:
+   cmake --build build
+
+3. Run the Tests:
+   ctest --test-dir build --output-on-failure
+
+4. Run the Test Executable Directly:
+   ./build/TestPairsTrader
+
+---
+
+### Using Docker
+
+1. Build and Run Tests:
+   docker-compose up --build
+
+2. Re-run Tests:
+   docker-compose run quantedge
+
+---
+
+### Cleanup Docker Environment
+
+To clean up the Docker environment and free up space, follow these steps:
+
+1. Stop and Remove All Running Containers:
+   docker-compose down
+
+2. Remove Unused Docker Resources:
+   - To remove unused containers, networks, and dangling images:
+     docker system prune -f
+
+3. Optional: Remove Unused Volumes:
+   - To free up space by removing unused volumes:
+     docker volume prune -f
+
+4. Full Reset:
+   - To remove all unused containers, images, volumes, and networks:
+     docker system prune -a --volumes -f
+
+Note: Be cautious when using the -a and --volumes flags, as they remove all unused resources, not just dangling ones.
+
+---
+
+## Strategies Implemented
+
+1. Pairs Trading
+A market-neutral strategy that trades the spread between two correlated assets.
+
+- Input: Price data for two assets (e.g., from AAPL.txt and MSFT.txt).
+- Signal:
+  - Long the spread when it is below -2 standard deviations.
+  - Short the spread when it is above +2 standard deviations.
+- Output: Final capital after backtesting.
+
+2. Mean-Reversion Strategy
+A single-asset strategy that trades on the assumption that prices revert to their mean.
+
+- Input: Price data for one asset.
+- Signal:
+  - Long when the price is below the short-term mean.
+  - Short when the price is above the long-term mean.
+
+3. Momentum Strategy
+A single-asset strategy that trades on price trends.
+
+- Input: Price data for one asset.
+- Signal:
+  - Long when momentum is positive.
+  - Short when momentum is negative.
+
+---
+
+## Testing with Google Test
+
+Google Test (gtest) is integrated into the project to enable structured and comprehensive unit testing.
+
+1. Run Tests with CTest:
+   ctest --test-dir build --output-on-failure
+
+2. Run the Test Executable Directly:
+   ./build/TestPairsTrader
+
+---
+
+## Troubleshooting
+
+Common Issues
+1. Build Errors:
+   - Ensure you’ve installed CMake and a C++17-compatible compiler.
+   - If errors persist, clean up the build directory:
+     rm -rf build
+   Then reconfigure and rebuild:
+     cmake -S . -B build -G Ninja
+     cmake --build build
+
+2. Docker Errors:
+   - Ensure Docker is running.
+   - Use docker-compose down to stop all services and clean up:
+     docker-compose down
+     docker system prune -f

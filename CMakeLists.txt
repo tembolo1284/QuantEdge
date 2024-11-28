@@ -9,8 +9,14 @@ include_directories(include)
 # Add source files
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
-# Add the main executable
-add_executable(QuantEdge ${SOURCES})
+# Add QuantEdge library
+add_library(QuantEdge ${SOURCES})
+
+# Add main executable
+add_executable(QuantEdgeRunner src/main.cpp)
+
+# Link QuantEdge library to main executable
+target_link_libraries(QuantEdgeRunner PRIVATE QuantEdge)
 
 # Enable testing
 enable_testing()
@@ -30,10 +36,13 @@ FetchContent_MakeAvailable(googletest)
 # Add test executable
 add_executable(TestPairsTrader test/TestPairsTrader.cpp)
 
-# Link test executable against the main sources and gtest libraries
-target_sources(TestPairsTrader PRIVATE ${SOURCES})
-target_link_libraries(TestPairsTrader PRIVATE gtest_main)
+# Link test executable against QuantEdge library and gtest
+target_link_libraries(TestPairsTrader PRIVATE QuantEdge gtest_main)
 
-# Add the test to CTest
+# Register individual Google Test cases with CTest
+include(GoogleTest)
+gtest_discover_tests(TestPairsTrader)
+
+# Add the test to CTest (if discover tests does not automatically include them)
 add_test(NAME TestPairsTrader COMMAND TestPairsTrader)
 

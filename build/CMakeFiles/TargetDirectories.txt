@@ -1,4 +1,5 @@
 /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/CMakeFiles/QuantEdge.dir
+/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/CMakeFiles/QuantEdgeRunner.dir
 /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/CMakeFiles/TestPairsTrader.dir
 /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/CMakeFiles/test.dir
 /home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/CMakeFiles/edit_cache.dir

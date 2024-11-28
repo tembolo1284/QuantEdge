@@ -1,0 +1,5 @@
+if(EXISTS "/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/TestPairsTrader[1]_tests.cmake")
+  include("/home/tembolo381/Desktop/cpp-workspace/QuantEdge/build/TestPairsTrader[1]_tests.cmake")
+else()
+  add_test(TestPairsTrader_NOT_BUILT TestPairsTrader_NOT_BUILT)
+endif()
